@@ -74,7 +74,7 @@ public class UserController {
 
         var userDto = userMapper.toDto(user);
 
-        var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
+        var uri = uriBuilder.path("api/users/{id}").buildAndExpand(userDto.getId()).toUri();
 
         return ResponseEntity.created(uri).body(userDto);
 
