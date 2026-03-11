@@ -1,5 +1,6 @@
 package com.ashcode.store.controllers;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.data.domain.Sort;
@@ -23,6 +24,7 @@ import com.ashcode.store.dtos.users.response.UserDto;
 import com.ashcode.store.mappers.UserMapper;
 import com.ashcode.store.repositories.UserRepository;
 
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -64,9 +66,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(
-            @RequestBody RegisterUserRequest request,
+    public ResponseEntity<?> registerUser(
+            @Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder) {
+
+        if (userRepository.existsByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest().body(Map.of("email", "email is already registered."));
+        }
 
         var user = userMapper.toEntity(request);
 

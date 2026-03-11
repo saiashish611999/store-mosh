@@ -8,4 +8,6 @@ import com.ashcode.store.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    Boolean existsByEmail(String email);
+
 }
